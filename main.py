@@ -35,16 +35,16 @@ llm_symbolic_math = LLMSymbolicMathChain.from_llm(llm)
 # pal_chain = PALChain.from_math_prompt(llm, verbose=True)
 
 if query:
-    if option=="General Math":
-        res=llm_math.run(query)
-    elif option=="Solving Equations":
-        res=llm_symbolic_math.run(query)
-    elif option=="Word Problems":
-        res=llm(f'''Assume yourself as a mathematics professor and answer the given word problem.
-                    Question: {query}''')
-
+    with st.spinner("Working it out..."):
+        if option=="General Math":
+            res=llm_math.run(query)
+        elif option=="Solving Equations":
+            res=llm_symbolic_math.run(query)
+        elif option=="Word Problems":
+            res=llm(f'''Assume yourself as a mathematics professor and answer the given word problem.
+                        Question: {query}''')
+    
+        st.markdown(res)
 
 # question = "Jan has three times the number of pets as Marcia. Marcia has two more pets than Cindy. If Cindy has four pets, how many total pets do the three have?"
 # res=pal_chain.run(question)
-
-st.markdown(res)
