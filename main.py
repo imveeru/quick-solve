@@ -61,7 +61,7 @@ llm_symbolic_math = LLMSymbolicMathChain.from_llm(llm)
 wolfram = WolframAlphaAPIWrapper()
 # pal_chain = PALChain.from_math_prompt(llm, verbose=True)
 
-os.environ["WOLFRAM_ALPHA_APPID"]=st.secrets["WOLFRAM"]
+os.environ["WOLFRAM_ALPHA_APPID"]=st.secrets["WOLFRAM_ALPHA_APPID"]
 
 if query:
     with st.spinner("Working it out..."):
