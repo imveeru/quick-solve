@@ -27,7 +27,7 @@ query=st.text_input("Type your question here.")
 
 from langchain.llms import VertexAI
 from langchain import LLMMathChain
-# from langchain.chains import PALChain
+from langchain.chains import PALChain
 from langchain.chains.llm_symbolic_math.base import LLMSymbolicMathChain
 from langchain.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 
@@ -59,7 +59,7 @@ llm = VertexAI()
 llm_math = LLMMathChain.from_llm(llm, verbose=True)
 llm_symbolic_math = LLMSymbolicMathChain.from_llm(llm)
 wolfram = WolframAlphaAPIWrapper()
-# pal_chain = PALChain.from_math_prompt(llm, verbose=True)
+pal_chain = PALChain.from_math_prompt(llm, verbose=True)
 
 os.environ["WOLFRAM_ALPHA_APPID"]=st.secrets["WOLFRAM_ALPHA_APPID"]
 
@@ -77,5 +77,6 @@ if query:
     
         st.markdown(res)
 
-# question = "Jan has three times the number of pets as Marcia. Marcia has two more pets than Cindy. If Cindy has four pets, how many total pets do the three have?"
-# res=pal_chain.run(question)
+question = "Jan has three times the number of pets as Marcia. Marcia has two more pets than Cindy. If Cindy has four pets, how many total pets do the three have?"
+res=pal_chain.run(question)
+st.write(res)
