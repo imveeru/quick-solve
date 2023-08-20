@@ -29,6 +29,7 @@ from langchain.llms import VertexAI
 from langchain import LLMMathChain
 # from langchain.chains import PALChain
 from langchain.chains.llm_symbolic_math.base import LLMSymbolicMathChain
+from langchain.utilities.wolfram_alpha import WolframAlphaAPIWrapper
 
 import json
 import google.generativeai as palm
@@ -37,6 +38,7 @@ from google.oauth2 import service_account
 import google.cloud.aiplatform as aiplatform
 import vertexai
 from vertexai.language_models import TextGenerationModel
+import os
 
 config = st.secrets["GOOGLE_APPLICATION_CREDENTIALS"]
 service_account_info=json.loads(config)
@@ -56,14 +58,19 @@ vertexai.init(project=project_id, location="us-central1")
 llm = VertexAI()
 llm_math = LLMMathChain.from_llm(llm, verbose=True)
 llm_symbolic_math = LLMSymbolicMathChain.from_llm(llm)
+wolfram = WolframAlphaAPIWrapper()
 # pal_chain = PALChain.from_math_prompt(llm, verbose=True)
+
+os.environ["WOLFRAM_ALPHA_APPID"]=st.secrets["WOLFRAM"]
 
 if query:
     with st.spinner("Working it out..."):
         if option=="General Math":
-            res=llm_math.run(query)
+            #res=llm_math.run(query)
+            res=wolfram.run(query)
         elif option=="Solving Equations":
             res=llm_symbolic_math.run(query)
+            # st.write("Not availale!")
         elif option=="Word Problems":
             res=llm(f'''Assume yourself as a mathematics professor and answer the given word problem.
                         Question: {query}''')
